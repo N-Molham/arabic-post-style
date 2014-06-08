@@ -1,0 +1,23 @@
+@CHARSET "UTF-8";
+
+/* Copyrights: Jozoor Fonts
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =   
+=     00   00 00 00   00 00 00   00 00 00   00 00 00   00 00  =
+=     00   00    00        00    00    00   00    00   00     =
+=     00   00    00      00      00    00   00    00   00     =  
+=     00   00    00    00        00    00   00    00   00     =
+=  00 00   00 00 00   00 00 00   00 00 00   00 00 00   00     =
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+*/
+
+/* fonts */
+@font-face {
+	font-family: "JF Flat";
+	src: url('http://fonts.jozoor.com/flat-font/font/JF-Flat-regular.eot');
+	src: url('http://fonts.jozoor.com/flat-font/font/JF-Flat-regular.eot?#iefix') format('embedded-opentype'),
+		url('http://fonts.jozoor.com/flat-font/font/JF-Flat-regular.svg#JF Flat') format('svg'),
+		url('http://fonts.jozoor.com/flat-font/font/JF-Flat-regular.woff') format('woff'),
+		url('http://fonts.jozoor.com/flat-font/font/JF-Flat-regular.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
