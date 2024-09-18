@@ -54,14 +54,16 @@ class Arabic_Post_Style
      *
      * @var array
      */
-    protected static array $post_settings = [];
+    protected static array $postSettings = [];
+
+    protected static ?Arabic_Post_Style $instance = null;
 
     /**
      * Constructor
      *
      * @return void
      */
-    public function __construct()
+    private function __construct()
     {
         // plug-in loaded
         do_action('arabic_post_style_loaded');
@@ -70,7 +72,7 @@ class Arabic_Post_Style
         add_action('init', [$this, 'init']);
 
         // Language file loading hook
-        add_action('plugins_loaded', [$this, 'load_language']);
+        add_action('plugins_loaded', [$this, 'loadLanguage']);
     }
 
     /**
@@ -84,81 +86,81 @@ class Arabic_Post_Style
         $this->fonts = apply_filters('arps_fonts_list', [
             'jozoor'           => [
                 'name'    => 'Jozoor',
-                'url'     => 'http://fonts.jozoor.com/jozoor-font/css/font.css',
+                'url'     => 'https://fonts.jozoor.com/jozoor-font/css/font.css',
                 'family'  => "'AraJozoor-Regular', Sans-Serif",
-                'license' => 'Copyrights <a href="http://jozoor.com/" target="_blank">Jozoor Team</a>, License <a target="_blank" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons &mdash; Attribution-ShareAlike 3.0 Unported</a>',
+                'license' => 'Copyrights <a href="https://jozoor.com/" target="_blank">Jozoor Team</a>, License <a target="_blank" href="https://creativecommons.org/licenses/by-sa/3.0/">Creative Commons &mdash; Attribution-ShareAlike 3.0 Unported</a>',
             ],
             'jf-flat'          => [
                 'name'    => 'JF Flat',
                 'url'     => ARPS_URI.'css/jf-flat.css',
                 'family'  => "'JF Flat', Arial, sans-serif",
-                'license' => 'Copyrights <a target="_blank" href="http://jozoor.com/">Jozoor Team</a>, License <a target="_blank" href="http://scripts.sil.org/OFL">OFL (SIL Open Font License)</a>',
+                'license' => 'Copyrights <a target="_blank" href="https://jozoor.com/">Jozoor Team</a>, License <a target="_blank" href="https://scripts.sil.org/OFL">OFL (SIL Open Font License)</a>',
             ],
             'amiri'            => [
                 'name'    => 'Amiri',
-                'url'     => '//fonts.googleapis.com/earlyaccess/amiri.css',
+                'url'     => 'https://fonts.googleapis.com/earlyaccess/amiri.css',
                 'family'  => "'Amiri', serif",
-                'license' => '<a target="_blank" href="http://themes.googleusercontent.com/static/fonts/earlyaccess/amiri/OFL.txt">SIL Open Font License, 1.1</a>',
+                'license' => '<a target="_blank" href="https://themes.googleusercontent.com/static/fonts/earlyaccess/amiri/OFL.txt">SIL Open Font License, 1.1</a>',
             ],
             'droidarabickufi'  => [
                 'name'    => 'Droid Arabic Kufi',
-                'url'     => '//fonts.googleapis.com/earlyaccess/droidarabickufi.css',
+                'url'     => 'https://fonts.googleapis.com/earlyaccess/droidarabickufi.css',
                 'family'  => "'Droid Arabic Kufi', serif",
-                'license' => '<a target="_blank" href="http://themes.googleusercontent.com/static/fonts/earlyaccess/droidarabickufi/LICENSE.txt">Apache License, version 2.0</a>',
+                'license' => '<a target="_blank" href="https://themes.googleusercontent.com/static/fonts/earlyaccess/droidarabickufi/LICENSE.txt">Apache License, version 2.0</a>',
             ],
             'droidarabicnaskh' => [
                 'name'    => 'Droid Arabic Naskh',
-                'url'     => '//fonts.googleapis.com/earlyaccess/droidarabicnaskh.css',
+                'url'     => 'https://fonts.googleapis.com/earlyaccess/droidarabicnaskh.css',
                 'family'  => "'Droid Arabic Naskh', serif",
-                'license' => '<a target="_blank" href="http://themes.googleusercontent.com/static/fonts/earlyaccess/droidarabicnaskh/LICENSE.txt">Apache License, version 2.0</a>',
+                'license' => '<a target="_blank" href="https://themes.googleusercontent.com/static/fonts/earlyaccess/droidarabicnaskh/LICENSE.txt">Apache License, version 2.0</a>',
             ],
             'lateef'           => [
                 'name'    => 'Lateef',
-                'url'     => '//fonts.googleapis.com/earlyaccess/lateef.css',
+                'url'     => 'https://fonts.googleapis.com/earlyaccess/lateef.css',
                 'family'  => "'Lateef', serif",
-                'license' => '<a target="_blank" href="http://themes.googleusercontent.com/static/fonts/earlyaccess/lateef/OFL.txt">SIL Open Font License, 1.1</a>',
+                'license' => '<a target="_blank" href="https://themes.googleusercontent.com/static/fonts/earlyaccess/lateef/OFL.txt">SIL Open Font License, 1.1</a>',
             ],
             'thabit'           => [
                 'name'    => 'Thabit',
-                'url'     => '//fonts.googleapis.com/earlyaccess/thabit.css',
+                'url'     => 'https://fonts.googleapis.com/earlyaccess/thabit.css',
                 'family'  => "'Thabit', serif",
-                'license' => '<a target="_blank" href="http://themes.googleusercontent.com/static/fonts/earlyaccess/thabit/OFL.txt">SIL Open Font License, 1.1</a>',
+                'license' => '<a target="_blank" href="https://themes.googleusercontent.com/static/fonts/earlyaccess/thabit/OFL.txt">SIL Open Font License, 1.1</a>',
             ],
             'scheherazade'     => [
                 'name'    => 'Scheherazade',
-                'url'     => 'http://openfontlibrary.org/face/scheherazade',
+                'url'     => 'https://openfontlibrary.org/face/scheherazade',
                 'family'  => "'Scheherazade', sans-serif",
-                'license' => '<a target="_blank" href="OFL (SIL Open Font License)">OFL (SIL Open Font License)</a>',
+                'license' => 'OFL (SIL Open Font License)',
             ],
         ]);
 
         // meta box hook
-        add_action('add_meta_boxes', [$this, 'register_meta_box']);
+        add_action('add_meta_boxes', [$this, 'registerMetaBox']);
 
         // after saving post
-        add_action('save_post', [$this, 'save_styling_settings']);
+        add_action('save_post', [$this, 'saveStylingSettings']);
 
         // language attributes filter hook
-        add_filter('language_attributes', [$this, 'change_doc_lang_attrs']);
+        add_filter('language_attributes', [$this, 'changeDocLangAttrs']);
 
         // theme header hook
-        add_action('wp_head', [$this, 'post_styling_load'], 15);
+        add_action('wp_head', [$this, 'loadPostStyling'], 15);
 
         // post article wrapper class
-        add_filter('post_class', [$this, 'post_class_filter'], 10, 3);
+        add_filter('body_class', [$this, 'bodyCssClasses'], 20);
     }
 
     /**
      * Override HTML lang attribute
      *
-     * @param string $org_attributes
+     * @param string $orgAttributes
      * @return string
      */
-    public function change_doc_lang_attrs(string $org_attributes) : string
+    public function changeDocLangAttrs(string $orgAttributes) : string
     {
         $attributes = [];
 
-        if (is_singular() && self::is_arabic_post()) {
+        if (is_singular() && self::isArabicPost()) {
             $attributes[] = 'lang="ar-EG"';
 
             if (function_exists('is_rtl') && is_rtl()) {
@@ -166,7 +168,7 @@ class Arabic_Post_Style
             }
         }
 
-        return empty($attributes) ? $org_attributes : implode(' ', $attributes);
+        return empty($attributes) ? $orgAttributes : implode(' ', $attributes);
     }
 
     /**
@@ -174,7 +176,7 @@ class Arabic_Post_Style
      *
      * @return void
      */
-    public function post_styling_load() : void
+    public function loadPostStyling() : void
     {
         global $wp_query;
 
@@ -184,62 +186,56 @@ class Arabic_Post_Style
         }
 
         // specific posts styling
-        $posts_styling = '';
+        $postStyling = '';
 
-        for ($i = 0, $len = count($wp_query->posts); $i < $len; $i++) {
-            if (! isset($wp_query->posts[$i])) {
-                continue;
-            }
-
-            $post = &$wp_query->posts[$i];
-
+        foreach ($wp_query->posts as $post) {
             // get settings
-            $settings = self::get_post_settings($post->ID);
+            $settings = self::getSettings($post->ID);
 
             // check if Arabic post
-            if (! $settings['is_arabic']) {
+            if (! ($settings['is_arabic'] ?? false)) {
                 continue;
             }
 
-            $font = $this->fonts[$settings['font']];
-
-            // enqueue font files
-            if (isset($this->fonts[$settings['font']])) {
-                wp_enqueue_style('arps-font-'.$settings['font'], $font['url']);
+            if (! $font = $this->fonts[$settings['font']] ?? null) {
+                continue;
             }
 
-            // override post title and content font family & extra once
-            $posts_styling .= '#post-'.$post->ID.' .entry-title, #post-'.$post->ID.' .entry-content { font-family: '.$font['family'].'; }'."\n";
-            $posts_styling .= $settings['extra']."\n";
+            wp_enqueue_style('arps-font-'.$settings['font'], $font['url']);
+
+            $postStyling .= "#post-$post->ID .entry-title, 
+            .postid-$post->ID .wp-block-post-title, 
+            #post-$post->ID .entry-content,
+            .postid-$post->ID .wp-block-post-content { font-family: {$font['family']} !important; }\n";
+
+            $postStyling .= $settings['extra']."\n";
         }
 
         // styles start
-        $final_styles = '<style type="text/css" media="screen">'."\n";
+        $finalStyles = '<style media="screen">'."\n";
 
         // global
-        $final_styles .= '.arabic-post .entry-title, .arabic-post .entry-content { direction: rtl; }'."\n";
+        $finalStyles .= '.arabic-post .entry-title, .arabic-post .wp-block-post-title, .arabic-post .entry-content { direction: rtl; }'."\n";
 
         // each post styling
-        $final_styles .= $posts_styling;
+        $finalStyles .= $postStyling;
 
         // styles end
-        $final_styles .= '</style>';
+        $finalStyles .= '</style>';
 
-        echo apply_filters('arps_posts_styles', $final_styles);
+        echo apply_filters('arps_posts_styles', $finalStyles);
     }
 
     /**
      * Override post class list if it is a Arabic post
      *
      * @param string[] $classes
-     * @param string[] $css_class
-     * @param integer $post_id
      * @return array
      */
-    public function post_class_filter(array $classes, array $css_class, int $post_id) : array
+    public function bodyCssClasses(array $classes) : array
     {
         // check if Arabic post
-        if (self::is_arabic_post($post_id) && ! in_array('', $classes)) {
+        if (self::isArabicPost() && ! in_array('arabic-post', $classes)) {
             // add target class
             $classes[] = 'arabic-post';
         }
@@ -253,44 +249,43 @@ class Arabic_Post_Style
      * @param string $post_type
      * @return void
      */
-    public function register_meta_box(string $post_type) : void
+    public function registerMetaBox(string $post_type) : void
     {
         $allowed_post_types = apply_filters('arps_meta_box_post_types', ['page', 'post']);
 
         if (in_array($post_type, $allowed_post_types, true)) {
-            add_meta_box('arps_style', __('Arabic Styling', ARPS_TEXT_DOMAIN), [$this, 'styling_meta_box'], $post_type, 'normal', 'high');
+            add_meta_box('arps_style', __('Arabic Styling', ARPS_TEXT_DOMAIN), [$this, 'stylingMetaBox'], $post_type, 'normal', 'high');
         }
     }
 
     /**
      * Save styling settings
      *
-     * @param integer $post_id
+     * @param integer $postId
      * @return void
      */
-    public function save_styling_settings(int $post_id) : void
+    public function saveStylingSettings(int $postId) : void
     {
         if (! isset($_POST['arps']) || ! is_array($_POST['arps']) || ! current_user_can('publish_posts')) {
             return;
         }
 
         // sanitize values
-        $new_settings = array_map('sanitize_text_field', $_POST['arps']);
+        $newSettings = array_map('sanitize_text_field', $_POST['arps']);
 
         // Arabic post
-        $new_settings['is_arabic'] = isset($new_settings['is_arabic']) && 'yes' === $new_settings['is_arabic'];
+        $newSettings['is_arabic'] = isset($newSettings['is_arabic']) && 'yes' === $newSettings['is_arabic'];
 
         // font family
-        $new_settings['font'] = isset($this->fonts[$new_settings['font']]) ? $new_settings['font'] : '';
+        $newSettings['font'] = isset($this->fonts[$newSettings['font']]) ? $newSettings['font'] : '';
 
         // filtered
-        $new_settings = apply_filters('arps_new_settings', $new_settings, $post_id);
-        if (false === $new_settings) {
+        if (! $newSettings = apply_filters('arps_new_settings', $newSettings, $postId)) {
             return;
         }
 
         // save data
-        update_post_meta($post_id, self::SETTINGS_META_KEY, $new_settings);
+        update_post_meta($postId, self::SETTINGS_META_KEY, $newSettings);
     }
 
     /**
@@ -299,9 +294,9 @@ class Arabic_Post_Style
      * @param WP_Post $post
      * @return void
      */
-    public function styling_meta_box(WP_Post $post) : void
+    public function stylingMetaBox(WP_Post $post) : void
     {
-        $settings = self::get_post_settings($post->ID);
+        $settings = self::getSettings($post->ID);
 
         ?>
         <table class="form-table">
@@ -354,46 +349,47 @@ class Arabic_Post_Style
     /**
      * Get post styling settings
      *
-     * @param integer $post_id
+     * @param integer $postId
      * @return array
      */
-    public static function get_post_settings(int $post_id) : array
+    public static function getSettings(int $postId) : array
     {
         // check cached
-        if (isset(self::$post_settings[$post_id])) {
-            return apply_filters('arps_post_settings', self::$post_settings[$post_id], $post_id);
+        if (isset(self::$postSettings[$postId])) {
+            return apply_filters('arps_post_settings', self::$postSettings[$postId], $postId);
         }
 
         // defaults
-        $settings = wp_parse_args(get_post_meta($post_id, self::SETTINGS_META_KEY, true), [
+        $settings = wp_parse_args(get_post_meta($postId, self::SETTINGS_META_KEY, true), [
             'is_arabic' => false,
             'font'      => '',
-            'extra'     => "#post-{$post_id} .entry-title {  }\n#post-{$post_id} .entry-content {  }",
+            'extra'     => "#post-{$postId} .entry-title, .postid-$postId .wp-block-post-title {  }
+            .postid-$postId .wp-block-post-content, #post-$postId .entry-content {  }",
         ]);
 
         // cache settings
-        self::$post_settings[$post_id] = $settings;
+        self::$postSettings[$postId] = $settings;
 
         // return filtered
-        return apply_filters('arps_post_settings', $settings, $post_id);
+        return apply_filters('arps_post_settings', $settings, $postId);
     }
 
     /**
      * Check is post is Arabic
      *
-     * @param integer|string $post_id
+     * @param integer|string $postId
      * @return boolean
      */
-    public static function is_arabic_post(int|string $post_id = '') : bool
+    public static function isArabicPost(int|string $postId = '') : bool
     {
-        if (empty($post_id)) {
-            $post_id = get_post()->ID;
+        if (empty($postId)) {
+            $postId = get_post()->ID;
         }
 
-        $settings = self::get_post_settings($post_id);
+        $settings = self::getSettings($postId);
 
         // return filtered
-        return apply_filters('arps_is_arabic_post', $settings['is_arabic'], $post_id);
+        return apply_filters('arps_is_arabic_post', $settings['is_arabic'], $postId);
     }
 
     /**
@@ -401,10 +397,15 @@ class Arabic_Post_Style
      *
      * @return void
      */
-    public function load_language() : void
+    public function loadLanguage() : void
     {
         load_plugin_textdomain(ARPS_TEXT_DOMAIN, false, ARPS_LANG_DIR);
     }
+
+    public static function instance() : self
+    {
+        return self::$instance ??= new self();
+    }
 }
 
-$arps = new Arabic_Post_Style();
+Arabic_Post_Style::instance();
